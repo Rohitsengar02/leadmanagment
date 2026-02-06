@@ -61,7 +61,7 @@ class AnalyticsScreen extends StatelessWidget {
               style: GoogleFonts.outfit(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: AppColors.textPrimary,
               ),
             ),
             Text(
@@ -84,9 +84,9 @@ class AnalyticsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         shape: BoxShape.circle,
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        border: Border.all(color: AppColors.textPrimary.withValues(alpha: 0.1)),
       ),
-      child: Icon(icon, color: Colors.white, size: 20),
+      child: Icon(icon, color: AppColors.textPrimary, size: 20),
     );
   }
 
@@ -132,13 +132,13 @@ class AnalyticsScreen extends StatelessWidget {
               ),
               Container(
                 padding: const EdgeInsets.all(12),
-                decoration: const BoxDecoration(
-                  color: Colors.black,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.show_chart_rounded,
-                  color: AppColors.primary,
+                  color: Colors.black,
                   size: 24,
                 ),
               ),
@@ -148,7 +148,7 @@ class AnalyticsScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.black.withValues(alpha: 0.1),
+              color: Colors.black.withOpacity(0.1),
               borderRadius: BorderRadius.circular(25),
             ),
             child: Row(
@@ -263,7 +263,7 @@ class AnalyticsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(25),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        border: Border.all(color: Colors.white.withOpacity(0.05)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,14 +293,14 @@ class AnalyticsScreen extends StatelessWidget {
                 style: GoogleFonts.outfit(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: AppColors.textPrimary,
                 ),
               ),
               Text(
                 title,
                 style: GoogleFonts.outfit(
                   fontSize: 11,
-                  color: AppColors.textTertiary,
+                  color: AppColors.textSecondary,
                 ),
               ),
             ],
@@ -344,7 +344,10 @@ class AnalyticsScreen extends StatelessWidget {
           children: [
             Text(
               label,
-              style: GoogleFonts.outfit(color: Colors.white70, fontSize: 13),
+              style: GoogleFonts.outfit(
+                color: AppColors.textPrimary.withValues(alpha: 0.7),
+                fontSize: 13,
+              ),
             ),
             Text(
               '${(progress * 100).toInt()}%',
@@ -359,7 +362,7 @@ class AnalyticsScreen extends StatelessWidget {
         const SizedBox(height: 8),
         LinearProgressIndicator(
           value: progress,
-          backgroundColor: Colors.white.withValues(alpha: 0.05),
+          backgroundColor: Colors.white.withOpacity(0.05),
           valueColor: AlwaysStoppedAnimation<Color>(color),
           borderRadius: BorderRadius.circular(10),
           minHeight: 6,
@@ -408,7 +411,7 @@ class AnalyticsScreen extends StatelessWidget {
                   names[index],
                   style: GoogleFonts.outfit(
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 Text(
@@ -439,7 +442,7 @@ class AnalyticsScreen extends StatelessWidget {
       style: GoogleFonts.outfit(
         fontSize: 18,
         fontWeight: FontWeight.bold,
-        color: Colors.white,
+        color: AppColors.textPrimary,
       ),
     );
   }
@@ -451,7 +454,7 @@ class AnalyticsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(35),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        border: Border.all(color: Colors.white.withOpacity(0.05)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -461,7 +464,7 @@ class AnalyticsScreen extends StatelessWidget {
             style: GoogleFonts.outfit(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 30),
@@ -497,8 +500,8 @@ class AnalyticsScreen extends StatelessWidget {
               show: true,
               gradient: LinearGradient(
                 colors: [
-                  AppColors.primary.withValues(alpha: 0.2),
-                  AppColors.primary.withValues(alpha: 0.0),
+                  AppColors.primary.withOpacity(0.2),
+                  AppColors.primary.withOpacity(0.0),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,

@@ -56,6 +56,10 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen> {
                       const SizedBox(height: 16),
                       _buildFollowUpSection(),
                       const SizedBox(height: 30),
+                      _buildSectionHeader('Notes & Attachments'),
+                      const SizedBox(height: 16),
+                      _buildNotesSection(),
+                      const SizedBox(height: 30),
                       _buildSectionHeader('Engagement History'),
                       const SizedBox(height: 16),
                       _buildTimelineSection(),
@@ -78,24 +82,24 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen> {
       pinned: true,
       backgroundColor: AppColors.background,
       leading: IconButton(
-        icon: const Icon(
+        icon: Icon(
           Icons.arrow_back_ios_new_rounded,
-          color: Colors.white,
+          color: AppColors.textPrimary,
           size: 20,
         ),
         onPressed: () => Navigator.pop(context),
       ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.edit_outlined, color: Colors.white),
+          icon: Icon(Icons.edit_outlined, color: AppColors.textPrimary),
           onPressed: () {},
         ),
       ],
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(40),
               bottomRight: Radius.circular(40),
             ),
@@ -116,7 +120,7 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen> {
                 style: GoogleFonts.outfit(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -140,7 +144,7 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen> {
         child: DropdownButton<String>(
           value: _selectedStatus,
           dropdownColor: AppColors.surface,
-          icon: const Icon(
+          icon: Icon(
             Icons.keyboard_arrow_down_rounded,
             color: AppColors.primary,
             size: 20,
@@ -182,9 +186,7 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen> {
                   value: 0.85,
                   strokeWidth: 6,
                   backgroundColor: Colors.white12,
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                    AppColors.primary,
-                  ),
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
                 ),
               ),
               Text(
@@ -267,6 +269,8 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen> {
       ),
       child: Column(
         children: [
+          _buildInfoRow(Icons.business_rounded, 'Company', 'Acme Corp'),
+          _buildInfoDivider(),
           _buildInfoRow(Icons.phone_rounded, 'Phone', '+91 98765 43210'),
           _buildInfoDivider(),
           _buildInfoRow(Icons.email_rounded, 'Email', 'william.b@example.com'),
@@ -281,6 +285,12 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen> {
             Icons.person_outline_rounded,
             'Assigned To',
             'Rohit Patel',
+          ),
+          _buildInfoDivider(),
+          _buildInfoRow(
+            Icons.label_outline_rounded,
+            'Tags',
+            'Tech, High-Value',
           ),
         ],
       ),
@@ -315,8 +325,10 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen> {
     );
   }
 
-  Widget _buildInfoDivider() =>
-      const Divider(height: 32, color: Colors.white10);
+  Widget _buildInfoDivider() => Divider(
+    height: 32,
+    color: AppColors.textSecondary.withValues(alpha: 0.1),
+  );
 
   Widget _buildFollowUpSection() {
     return Container(
@@ -381,14 +393,14 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen> {
         children: [
           Icon(
             icon,
-            color: isSelected ? Colors.black : Colors.white54,
+            color: isSelected ? Colors.black : AppColors.textSecondary,
             size: 18,
           ),
           const SizedBox(width: 8),
           Text(
             label,
             style: GoogleFonts.outfit(
-              color: isSelected ? Colors.black : Colors.white54,
+              color: isSelected ? Colors.black : AppColors.textSecondary,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -447,7 +459,12 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen> {
                 ),
                 child: Icon(icon, color: color, size: 16),
               ),
-              Expanded(child: Container(width: 1, color: Colors.white10)),
+              Expanded(
+                child: Container(
+                  width: 1,
+                  color: AppColors.textSecondary.withValues(alpha: 0.1),
+                ),
+              ),
             ],
           ),
           const SizedBox(width: 16),
@@ -481,6 +498,98 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen> {
     );
   }
 
+  Widget _buildNotesSection() {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Column(
+        children: [
+          _buildNoteItem(
+            'Discussed Q4 budget requirements',
+            'Yesterday',
+            false,
+          ),
+          Divider(
+            height: 24,
+            color: AppColors.textSecondary.withValues(alpha: 0.1),
+          ),
+          _buildNoteItem('Sent initial proposal PDF', 'Jan 28, 2024', true),
+          const SizedBox(height: 16),
+          _buildAddNoteButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNoteItem(String text, String date, bool isAttachment) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          isAttachment
+              ? Icons.attach_file_rounded
+              : Icons.sticky_note_2_rounded,
+          color: AppColors.textTertiary,
+          size: 20,
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                text,
+                style: GoogleFonts.outfit(
+                  color: AppColors.textPrimary,
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                date,
+                style: GoogleFonts.outfit(
+                  color: AppColors.textTertiary,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAddNoteButton() {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.add, size: 18, color: AppColors.primary),
+            const SizedBox(width: 8),
+            Text(
+              'Add Note or File',
+              style: GoogleFonts.outfit(
+                color: AppColors.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildSectionHeader(String title) {
     return Row(
       children: [
@@ -506,7 +615,10 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen> {
             borderRadius: BorderRadius.circular(28),
           ),
         ),
-        child: const Text('Update Lead Status'),
+        child: Text(
+          'Update Lead Status',
+          style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
       ),
     );
   }

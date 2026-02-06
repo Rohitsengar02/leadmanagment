@@ -50,7 +50,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.dark(
+            colorScheme: ColorScheme.dark(
               primary: AppColors.primary,
               onPrimary: Colors.black,
               surface: AppColors.surface,
@@ -75,7 +75,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.dark(
+            colorScheme: ColorScheme.dark(
               primary: AppColors.primary,
               onPrimary: Colors.black,
               surface: AppColors.surface,
@@ -264,7 +264,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
         TextFormField(
           maxLines: maxLines,
           keyboardType: keyboardType,
-          style: GoogleFonts.outfit(color: Colors.white),
+          style: GoogleFonts.outfit(color: AppColors.textPrimary),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: GoogleFonts.outfit(
@@ -327,7 +327,10 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 const SizedBox(width: 12),
                 Text(
                   value,
-                  style: GoogleFonts.outfit(color: Colors.white, fontSize: 14),
+                  style: GoogleFonts.outfit(
+                    color: AppColors.textPrimary,
+                    fontSize: 14,
+                  ),
                 ),
               ],
             ),
@@ -370,7 +373,10 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 Icons.keyboard_arrow_down_rounded,
                 color: AppColors.textTertiary,
               ),
-              style: GoogleFonts.outfit(color: Colors.white, fontSize: 14),
+              style: GoogleFonts.outfit(
+                color: AppColors.textPrimary,
+                fontSize: 14,
+              ),
               onChanged: onChanged,
               items: items.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(

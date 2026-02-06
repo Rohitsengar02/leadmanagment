@@ -12,7 +12,7 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.background, // Dynamic background
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -28,14 +28,16 @@ class DashboardScreen extends StatelessWidget {
                 children: [
                   _buildTopBar(context),
                   const SizedBox(height: 20),
-                  _buildLogo(),
+                  _buildLogo(), // Theme sensitive logo
                   const SizedBox(height: 30),
 
-                  // Section 1: Top Metrics (Redesigned)
+                  // Section 1: Top Metrics (Dynamic Text)
                   _buildSectionHeader('Performance Snapshot'),
                   const SizedBox(height: 16),
                   _buildMetricsWave(),
                   const SizedBox(height: 30),
+
+                  // ... rest of the body using theme colors ...
 
                   // Original New Leads Section
                   _buildSectionHeader('New Leads'),
@@ -114,6 +116,24 @@ class DashboardScreen extends StatelessWidget {
               child: _buildCircleIconButton(Icons.add, size: 24),
             ),
             const SizedBox(width: 15),
+            ValueListenableBuilder<ThemeMode>(
+              valueListenable: themeModeNotifier,
+              builder: (context, currentMode, _) {
+                bool isDark = currentMode == ThemeMode.dark;
+                return GestureDetector(
+                  onTap: () {
+                    themeModeNotifier.value = isDark
+                        ? ThemeMode.light
+                        : ThemeMode.dark;
+                  },
+                  child: _buildCircleIconButton(
+                    isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                    size: 24,
+                  ),
+                );
+              },
+            ),
+            const SizedBox(width: 15),
             _buildCircleIconButton(
               Icons.notifications_none_rounded,
               size: 24,
@@ -160,20 +180,37 @@ class DashboardScreen extends StatelessWidget {
   }
 
   Widget _buildLogo() {
-    return Row(
-      children: [
-        Text('W', style: GoogleFonts.outfit(fontSize: 42, color: Colors.white)),
-        _buildLogoChar('O', true),
-        Text(
-          'RKF',
-          style: GoogleFonts.outfit(fontSize: 42, color: Colors.white),
-        ),
-        _buildLogoChar('O', true, dotColor: AppColors.cardBlue),
-        Text(
-          'RCE',
-          style: GoogleFonts.outfit(fontSize: 42, color: Colors.white),
-        ),
-      ],
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeModeNotifier,
+      builder: (context, _, _) {
+        return Row(
+          children: [
+            Text(
+              'W',
+              style: GoogleFonts.outfit(
+                fontSize: 42,
+                color: AppColors.textPrimary,
+              ),
+            ),
+            _buildLogoChar('O', true),
+            Text(
+              'RKF',
+              style: GoogleFonts.outfit(
+                fontSize: 42,
+                color: AppColors.textPrimary,
+              ),
+            ),
+            _buildLogoChar('O', true, dotColor: AppColors.cardBlue),
+            Text(
+              'RCE',
+              style: GoogleFonts.outfit(
+                fontSize: 42,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -183,7 +220,7 @@ class DashboardScreen extends StatelessWidget {
       children: [
         Text(
           char,
-          style: GoogleFonts.outfit(fontSize: 42, color: Colors.white),
+          style: GoogleFonts.outfit(fontSize: 42, color: AppColors.textPrimary),
         ),
         if (symbol)
           Container(
@@ -248,7 +285,7 @@ class DashboardScreen extends StatelessWidget {
           Text(
             val,
             style: GoogleFonts.outfit(
-              color: Colors.white,
+              color: AppColors.textPrimary,
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
@@ -319,43 +356,62 @@ class DashboardScreen extends StatelessWidget {
   }
 
   // --- 3. AI INSIGHT CARD ---
+  // --- 3. AI INSIGHT CARD ---
   Widget _buildAIInsightCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [AppColors.surface, Colors.black]),
-        borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
-      ),
-      child: Row(
-        children: [
-          const Text('🤖', style: TextStyle(fontSize: 32)),
-          const SizedBox(width: 20),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'AI Smart Insight',
-                  style: GoogleFonts.outfit(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  'James Miller is 85% likely to close if you call him before 6 PM today.',
-                  style: GoogleFonts.outfit(
-                    color: Colors.white70,
-                    fontSize: 13,
-                  ),
-                ),
-              ],
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeModeNotifier,
+      builder: (context, currentMode, _) {
+        bool isDark = currentMode == ThemeMode.dark;
+        return Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: isDark
+                  ? [AppColors.surface, Colors.black]
+                  : [Colors.white, const Color(0xFFF5F5F5)],
             ),
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+            boxShadow: [
+              if (!isDark)
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+            ],
           ),
-        ],
-      ),
+          child: Row(
+            children: [
+              const Text('🤖', style: TextStyle(fontSize: 32)),
+              const SizedBox(width: 20),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'AI Smart Insight',
+                      style: GoogleFonts.outfit(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      'James Miller is 85% likely to close if you call him before 6 PM today.',
+                      style: GoogleFonts.outfit(
+                        color: AppColors.textPrimary.withValues(alpha: 0.8),
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -455,7 +511,7 @@ class DashboardScreen extends StatelessWidget {
                 '\$45,280 / \$100k',
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: AppColors.textPrimary,
                 ),
               ),
               Text(
@@ -473,10 +529,8 @@ class DashboardScreen extends StatelessWidget {
             child: LinearProgressIndicator(
               value: 0.45,
               minHeight: 12,
-              backgroundColor: Colors.white12,
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                AppColors.primary,
-              ),
+              backgroundColor: AppColors.textTertiary.withValues(alpha: 0.2),
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
             ),
           ),
           const SizedBox(height: 12),
@@ -512,7 +566,10 @@ class DashboardScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Icon(t['icon'] as IconData, color: Colors.white70),
+                    Icon(
+                      t['icon'] as IconData,
+                      color: AppColors.textPrimary.withValues(alpha: 0.7),
+                    ),
                     const SizedBox(height: 8),
                     Text(
                       t['name'] as String,
@@ -685,6 +742,7 @@ class DashboardScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: f == 'All' ? Colors.white : AppColors.surface,
                   borderRadius: BorderRadius.circular(15),
+                  border: f == 'All' ? null : Border.all(color: Colors.black12),
                 ),
                 child: Text(
                   f,
@@ -750,19 +808,24 @@ class DashboardScreen extends StatelessWidget {
   }
 
   Widget _buildSectionHeader(String title) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: GoogleFonts.outfit(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        Icon(Icons.tune_rounded, color: AppColors.textSecondary, size: 18),
-      ],
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeModeNotifier,
+      builder: (context, _, _) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: GoogleFonts.outfit(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
+              ),
+            ),
+            Icon(Icons.tune_rounded, color: AppColors.textSecondary, size: 18),
+          ],
+        );
+      },
     );
   }
 }

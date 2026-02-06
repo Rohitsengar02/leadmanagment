@@ -88,7 +88,7 @@ class OnboardingScreen extends StatelessWidget {
                                   color: Colors.black,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.keyboard_double_arrow_right_rounded,
                                   color: AppColors.primary,
                                   size: 24,
